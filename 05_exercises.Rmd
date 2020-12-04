@@ -32,6 +32,7 @@ library(plotly)        # for the ggplotly() - basic interactivity
 library(gganimate)     # for adding animation layers to ggplots
 library(transformr)    # for "tweening" (gganimate)
 library(shiny)         # for creating interactive apps
+library(gifski)
 gs4_deauth()           # To not have to authorize each time you knit.
 theme_set(theme_minimal())
 ```
@@ -83,11 +84,43 @@ Once your repository is created, you should always open your **project** rather 
 ## Warm-up exercises from tutorial
 
   1. Choose 2 graphs you have created for ANY assignment in this class and add interactivity using the `ggplotly()` function.
+```{r}
+lettuce_bar_graph <- garden_harvest %>% 
+  filter(vegetable == "lettuce") %>%
+  ggplot(aes(y=fct_rev(fct_infreq(variety)))) +
+  geom_bar(fill="darkgreen") + 
+  labs(title = "How Many Times Did Lisa Harvest Each Different Type of Lettuce?" ,
+       x = "count",
+       y = "Variety")
+  ggplotly(lettuce_bar_graph)
+```
+
+```{r}
+lettuce_weight_distribution <- garden_harvest %>% 
+  filter(vegetable %in% c("lettuce")) %>%
+  ggplot(aes(x=weight)) +
+  geom_histogram(fill="lightblue",
+         color="white", 
+         bins = 30) + 
+  labs(title = "Distribution Weight of Lettuce Harvests",
+       x = "Weight (g)")
+ggplotly(lettuce_weight_distribution)
+```
+
   
   2. Use animation to tell an interesting story with the `small_trains` dataset that contains data from the SNCF (National Society of French Railways). These are Tidy Tuesday data! Read more about it [here](https://github.com/rfordatascience/tidytuesday/tree/master/data/2019/2019-02-26).
 
 ```{r}
-
+small_trains %>%
+  filter(year = "2015") %>% 
+  ggplot(aes(x = month, 
+             y = )) +
+  geom_jitter() +
+  facet_wrap(vars(variety)) +
+  labs(title = "Daily tomato harvest",
+       x = "",
+       y = "") 
+  
 ```
 
 ## Garden data
